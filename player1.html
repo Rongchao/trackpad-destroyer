@@ -189,10 +189,12 @@
           timer = setTimeout(display, 100);
         $('#count-down').html(seconds+'.'+millisec);
       }
+
       function end(){
         clearTimeout(timer);
         whowin();
       }
+
       function whowin(){
 
         if (pos > other){
