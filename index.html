@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+
+
   <script src='js/zepto.min.js'></script>
   <script src=http://cdn.pubnub.com/pubnub-3.4.6.min.js ></script>
   <style type="text/css">
@@ -100,11 +102,6 @@
   </style>
 </head>
 <body>
-  <div id=login>
-    Your Name:
-    <input id="name"></input>
-    <button id='click'></button>
-  </div>
 
   <div id=pubnub pub-key=demo sub-key=demo></div>
   <!--COMPONENTS-->
@@ -132,28 +129,6 @@
   <div id=screen>
   <div>
   <script>
-
-    // BEFORE GAME
-    var my_name;
-    var player;
-    var playing = 0
-
-
-    $('#click').click(function(){
-      my_name = $('#input').val();
-      $('#login').remove();
-      before_start();
-    });
-
-    function before_start(){
-      while(true){
-        if (playing == 1){
-          break;
-        }
-      }
-      start();
-    }
-
     var other = 0;
     var pos=0;
     var pubnub = PUBNUB.init({
@@ -162,44 +137,17 @@
     });
 
     pubnub.subscribe({
-      channel: 'trackpad-destroyer',
+      channel: 'trackpad-destroyer-2',
       message: update
 
     });
 
-    /*
-    m = {
-      playing: 1/0,
-      name: name,
-      pos: position
-    }
 
-    */
     function publish(m){
       pubnub.publish({
-        channel:'trackpad-destroyer',
+        channel:'trackpad-destroyer-1',
         message: m
       });
-    }
-
-    function control(m){
-      if(playing ==1 && m['playing'] == 1 && m['player'] == player){
-        update(m['pos']);
-        return;
-      }
-      else if(playing == 0 && m['playing'] ==0 && my_name){
-        // update score board
-        publish({
-          'playing': 1,
-          'name'   : my_name,
-          'pos'    : pos
-        });
-        player = m['player'];
-        playing = 1;
-        return;
-      }
-      else
-        return;
     }
 
     // CALLBACK FOR SUBSCRIBE
@@ -283,6 +231,7 @@
 
     $(function(){
       $('#screen').html(tiers.join(''));
+      start();
     });
 
     window.onbeforeunload = function(){
